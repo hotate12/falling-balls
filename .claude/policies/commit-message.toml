@@ -1,0 +1,112 @@
+[commit_message_specification]
+name = "Lucent Commits"
+objective = "Produce professional, minimal, noise-free commit messages compliant with Conventional Commits."
+version = "1.2"
+style_name = "Lucent Discipline"
+
+[modes.concise]
+name = "concise"
+alias = "simple"
+description = "Default mode for focused changes. Maximize signal density."
+
+[modes.structured]
+name = "structured"
+alias = "detailed"
+description = "Use when changes span domains and require grouped rationale."
+
+[rules.subject_line]
+max_length = 50
+format = "<type>(<optional_scope>): <subject>"
+mood = "imperative"
+case = "lowercase"
+trailing_punctuation = false
+
+[rules.type]
+allowed = [
+  "feat",
+  "fix",
+  "refactor",
+  "perf",
+  "style",
+  "docs",
+  "test",
+  "build",
+  "ci",
+  "chore",
+]
+
+[rules.scope]
+usage = "conditional"
+format = "Placed in parentheses immediately after type."
+condition_to_use = "Use only for strictly localized changes."
+condition_to_omit = """
+Omit scope when:
+1. Changes span multiple areas or domains.
+2. Including scope would exceed the 50-character limit.
+Subject clarity and the 50-character constraint take precedence over scope inclusion.
+"""
+
+[rules.body]
+max_line_length = 72
+bullet_style = "- "
+empty_line_after_subject = true
+quote_usage = "Avoid quotation marks unless required for exact syntax."
+
+[rules.breaking_change]
+usage = "conditional"
+decision_rule = "Use only when the change is materially breaking and justification is explicit."
+subject_syntax = "<type>(<optional_scope>)!: <subject>"
+footer_token = "breaking change:"
+footer_required = true
+
+[rules.tone_and_style]
+vibe = "Professional native English."
+noise_reduction = "Zero filler."
+focus = "State what changed and why using precise engineering terminology."
+
+[styles.concise]
+mode = "concise"
+structure = [
+  "<type>(<optional_scope>): <subject>",
+  "",
+  "- <Action> <target> <reason/outcome>.",
+  "- <Action> <target> <reason/outcome>.",
+]
+example_subject_with_scope = "ci(release): standardize verify-signature formatting"
+example_subject_without_scope = "ci: standardize verification and release workflows"
+example_body = """
+- Align layout and inline notes with the repository ci/cd style.
+- Preserve verification and JSON reporting behavior without functional changes.
+"""
+
+[styles.structured]
+mode = "structured"
+structure = [
+  "<type>: <subject>",
+  "",
+  "<Optional 1-2 line summary>",
+  "",
+  "- <ScopeHeader>: <Action> <target> <reason/outcome>.",
+  "- <ScopeHeader>: <Action> <target> <reason/outcome>.",
+]
+example_subject = "ci: refactor verify-signature action for consistency"
+example_body = """
+Standardize the verify-signature action layout and metadata while
+preserving its verification logic and outputs.
+
+- Style: Normalize section headers and whitespace for readability.
+- Docs: Tighten the YAML description for clarity.
+- Core: Retain behavior, including certificate parsing, expiry checks,
+  and JSON array outputs.
+"""
+
+[examples.breaking_change]
+subject = "feat(api)!: remove legacy v1 auth headers"
+body = """
+- Remove v1 header parsing to simplify the request pipeline.
+- Require oauth bearer tokens to align with the current security model.
+"""
+footer = """
+breaking change: clients must stop sending x-auth-token and migrate to
+oauth bearer tokens before upgrading.
+"""
