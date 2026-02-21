@@ -1,4 +1,4 @@
-[commit_message_specification]
+[spec]
 name = "Lucent Commits"
 objective = "Produce professional, minimal, noise-free commit messages compliant with Conventional Commits."
 version = "2.1"
@@ -10,12 +10,12 @@ style_name = "Lucent Discipline"
 [modes.concise]
 name = "concise"
 alias = "simple"
-description = "Default mode for narrowly-scoped changes. Maximize signal density."
+description = "Default mode for narrowly-scoped, single-domain changes."
 
 [modes.structured]
 name = "structured"
 alias = "detailed"
-description = "Use only when changes span domains or require grouped rationale."
+description = "Use when changes span multiple domains or require a cross-cutting summary."
 
 # ----------------------------------------------------------------------
 # Global hard constraints
@@ -26,26 +26,10 @@ voice = "active"
 avoid_filler = true
 avoid_hype = true
 avoid_subjectivity = true
-banned_prefixes_in_body = [
-  "core:",
-  "source:",
-  "ui:",
-  "style:",
-  "tests:",
-  "docs:",
-  "config:",
-  "build:",
-  "ci:",
-  "chore:",
-  "note:",
-  "notes:",
-  "misc:",
-  "miscellaneous:",
-  "ref:",
-  "refs:",
-  "wip:",
-  "todo:",
-  "tmp:",
+banned_in_all_sections = [
+  "bare URLs (http or https)",
+  "ephemeral session or run links",
+  "reference-style links ([text](url))",
 ]
 
 # ----------------------------------------------------------------------
@@ -58,7 +42,7 @@ mood = "imperative"
 case = "lowercase"
 trailing_punctuation = false
 
-[rules.subject_line.strictness]
+[rules.subject_line.constraints]
 require_imperative_verb = true
 require_concrete_object = true
 ban_vague_subjects = [
@@ -79,7 +63,7 @@ preferred_phrases = [
 ]
 
 # ----------------------------------------------------------------------
-# Type rules (SDLC-ish order)
+# Type rules
 # ----------------------------------------------------------------------
 [rules.type]
 allowed = [
@@ -87,11 +71,11 @@ allowed = [
   "fix",
   "perf",
   "refactor",
-  "style",
   "test",
-  "docs",
   "build",
   "ci",
+  "docs",
+  "style",
   "chore",
 ]
 
@@ -101,13 +85,13 @@ allowed = [
 [rules.scope]
 usage = "conditional"
 format = "Placed in parentheses immediately after type."
-condition_to_use = "Use only for strictly localized changes confined to one subsystem or directory."
+condition_to_use = "Use only for changes confined to one subsystem or directory."
 condition_to_omit = """
 Omit scope when:
-1. Changes span multiple areas/domains (code + build + docs, etc.).
+1. Changes span multiple areas/domains.
 2. Including scope would exceed the 50-character subject limit.
-3. The scope would be a vague bucket (e.g., 'misc', 'general', 'all').
-Subject clarity and the 50-character constraint take precedence over scope inclusion.
+3. The scope would be vague (e.g., 'misc', 'general', 'all').
+Subject clarity and the 50-character constraint take precedence.
 """
 
 # ----------------------------------------------------------------------
@@ -119,99 +103,38 @@ empty_line_after_subject = true
 bullet_style = "- "
 min_bullets = 1
 max_bullets = 5
+bullet_terminator = "."
 quote_usage = "Avoid quotation marks unless required for exact syntax."
 tense = "present"
-end_each_bullet_with_period = true
 
-[rules.body.semantic]
+[rules.body.bullet_rules]
 bullet_pattern = "<verb> <target> <reason_or_outcome_optional>"
 require_action_verb = true
-prefer_reason_or_outcome = true
+require_reason_or_outcome = true
 ban_colon_labels = true
-ban_prefixes = true
 
-[rules.body.structured_headers]
+[rules.body.headered_bullets]
 enabled_only_in_mode = "structured"
-allowed_headers = ["core", "ui", "style", "test", "docs", "config", "build", "ci"]
-format = "- <Header>: <verb> <target> <reason/outcome>."
-max_headered_bullets = 3
+allowed_headers = ["core", "ui", "test", "build", "ci", "config", "docs", "style"]
+format = "- <header>: <verb> <target> <reason/outcome>."
+max_bullets = 5
 
 # ----------------------------------------------------------------------
 # Breaking change rules
 # ----------------------------------------------------------------------
 [rules.breaking_change]
 usage = "conditional"
-decision_rule = "Use only when the change is materially breaking and the user-facing impact is explicit."
+decision_rule = "Use only when materially breaking and user-impacting."
 subject_syntax = "<type>(<optional_scope>)!: <subject>"
 footer_token = "breaking change:"
 footer_required = true
 footer_max_line_length = 72
-
-# ----------------------------------------------------------------------
-# Mode selection gate (strict, testable)
-# ----------------------------------------------------------------------
-[rules.mode_selection]
-default_mode = "concise"
-# Treat these as domains for mode selection.
-domain_markers = ["core", "source", "ui", "style", "test", "docs", "config", "build", "ci"]
-# If the change touches 2+ domains, structured is mandatory.
-force_structured_when = """
-Select structured mode if ANY of the following are true:
-1. Touches 2 or more domains (code/build/ci/docs/config/ui/test/style).
-2. Includes renames that require updates in 2+ files or references.
-3. Requires a summary to explain intent or constraints beyond bullet text.
-"""
-# Concise is only for single-domain, low-coupling changes.
-force_concise_when = """
-Select concise mode ONLY if ALL of the following are true:
-1. Touches exactly 1 domain.
-2. Can be explained in 1-3 bullets without headers.
-3. No cross-file rename/refactor requiring widespread reference updates.
+url_exception = """
+Permitted only in the breaking change footer when citing a stable
+public specification or migration guide. Ephemeral URLs are prohibited.
 """
 
-# ----------------------------------------------------------------------
-# Output templates
-# ----------------------------------------------------------------------
-[styles.concise]
-mode = "concise"
-structure = [
-  "<type>(<optional_scope>): <subject>",
-  "",
-  "- <Verb> <target> <reason/outcome>.",
-  "- <Verb> <target> <reason/outcome>.",
-]
-hard_limits = "Do not exceed 3 bullets. Do not use header labels. Do not use colons in bullets."
-example_subject_with_scope = "ci(release): standardize verify-signature formatting"
-example_subject_without_scope = "ci: standardize verification and release workflows"
-example_body = """
-- Align workflow triggers to reduce redundant runs.
-- Preserve verification and JSON reporting behavior.
-"""
-
-[styles.structured]
-mode = "structured"
-structure = [
-  "<type>: <subject>",
-  "",
-  "<1-2 line summary (required)>",
-  "",
-  "- <Verb> <target> <reason/outcome>.",
-  "- <Verb> <target> <reason/outcome>.",
-  "- <Verb> <target> <reason/outcome>.",
-]
-summary_required = true
-hard_limits = "Max 5 bullets. Prefer plain bullets; use headered bullets only when grouping is unavoidable."
-example_subject = "refactor: rename the project to falling-balls"
-example_body = """
-Rename code, build, UI, docs, and claude rules to match the new
-project name and keep references consistent.
-- Rename catch_the_falling_balls.c/h to falling_balls.c/h to match the new binary name.
-- Update include guards and makefile references to keep builds consistent.
-- Align README.md, README.ja.md, and CLAUDE.md to avoid stale guidance.
-- Update .claude/rules module references to keep conventions consistent.
-"""
-
-[examples.breaking_change]
+[rules.breaking_change.example]
 subject = "feat(api)!: remove legacy v1 auth headers"
 body = """
 - Remove v1 header parsing to simplify the request pipeline.
@@ -223,127 +146,112 @@ oauth bearer tokens before upgrading.
 """
 
 # ----------------------------------------------------------------------
-# must_not (explicit forbidden patterns)
+# Mode selection gate
 # ----------------------------------------------------------------------
-[rules.must_not]
-# Subject must not include these patterns.
+[rules.mode_selection]
+default_mode = "concise"
+domain_markers = [
+  "core",
+  "ui",
+  "test",
+  "build",
+  "ci",
+  "config",
+  "docs",
+  "style",
+]
+force_structured_when = """
+Select structured mode if ANY apply:
+1. Touches 2+ domains.
+2. Renames requiring 2+ reference updates.
+3. Requires summary beyond bullet text.
+"""
+force_concise_when = """
+Select concise mode ONLY if ALL apply:
+1. Touches exactly 1 domain.
+2. Explained in 1–3 bullets.
+3. No cross-file rename or widespread update.
+"""
+
+# ----------------------------------------------------------------------
+# Output templates
+# ----------------------------------------------------------------------
+[styles.concise]
+mode = "concise"
+summary_required = false
+structure = [
+  "<type>(<optional_scope>): <subject>",
+  "",
+  "- <verb> <target> <reason/outcome>.",
+]
+hard_limits = "max 3 bullets. no header labels. no colons. no summary."
+example_subject_without_scope = "ci: standardize verification workflow"
+example_body = """
+- Align workflow triggers to reduce redundant runs.
+"""
+
+[styles.structured]
+mode = "structured"
+summary_required = true
+structure = [
+  "<type>: <subject>",
+  "",
+  "<1-2 line summary>",
+  "",
+  "- <header>: <verb> <target> <reason/outcome>.",
+]
+hard_limits = "max 5 bullets. headered bullets required."
+example_subject = "refactor: rename the project to falling-balls"
+example_body = """
+Rename code, build, UI, docs, and config to match the new
+project name.
+- core: rename source files to match binary name.
+- build: update include guards and makefile references.
+- docs: align documentation with the new project name.
+- config: update claude module references.
+"""
+
+# ----------------------------------------------------------------------
+# Constraints (explicit forbidden patterns)
+# ----------------------------------------------------------------------
+[rules.constraints]
 subject_patterns = [
-  "^\\w+\\([^\\)]+\\):\\s*$",              # empty subject after type/scope
-  "^(chore|refactor|docs|ci):\\s*(update|fix)$",  # too vague
-  "\\.$",                                  # trailing period
-  "\\b(wip|tmp|todo)\\b",                  # meta noise
-  "\\b(misc|various|stuff)\\b",            # vague nouns
+  "^\\w+\\([^\\)]+\\):\\s*$",
+  "^(chore|refactor|docs|ci):\\s*(update|fix)$",
+  "\\.$",
+  "\\b(wip|tmp|todo)\\b",
+  "\\b(misc|various|stuff)\\b",
 ]
-# Body must not include these patterns (case-insensitive intended).
 body_patterns = [
-  "^-\\s*(Core|Source|UI|Style|Test|Docs|Config|Build|CI):\\s",  # label bullets
-  "^-\\s*(note|notes):\\s",                                      # note bullets
-  "^-\\s*\\[[xX]\\]\\s",                                         # checklist bullets
-  "^-\\s*\\*\\*.*\\*\\*\\s",                                     # bolded bullets
-  "[\"\u201c\u201d].+[\"\u201c\u201d]",                          # unnecessary quotes
-  "\\b(hopefully|maybe|just|simply|basically)\\b",                # filler adverbs
+  "^-\\s*(note|notes):\\s",
+  "^-\\s*\\[[xX]\\]\\s",
+  "^-\\s*\\*\\*.*\\*\\*\\s",
+  "\\b(hopefully|maybe|just|simply|basically)\\b",
+  "https?://\\S+",
 ]
-# Scope must not be these values.
+footer_patterns = [
+  "^see[:\\s]",
+  "^ref[s]?[:\\s]",
+]
 scope_values = ["misc", "general", "all", "various", "global"]
 
-# ----------------------------------------------------------------------
-# auto_rewrite_rules (normalize non-compliant output)
-# ----------------------------------------------------------------------
-[rules.auto_rewrite_rules]
-enabled = true
-apply_order = [
-  "normalize_subject_case",
-  "remove_trailing_punctuation_in_subject",
-  "enforce_imperative_subject_phrasing",
-  "drop_scope_if_multidomain_or_vague",
-  "normalize_body_bullets",
-  "remove_label_style_bullets",
-  "wrap_lines_to_limits",
-  "insert_blank_line_after_subject",
-  "enforce_breaking_change_footer",
+[rules.constraints.concise]
+body_patterns = [
+  "^-\\s*(Source|UI|Docs|Config|Core|Build|CI|Test|Style):\\s",
 ]
-
-[rules.auto_rewrite_rules.normalize_subject_case]
-action = "lowercase_subject"
-target = "subject"
-
-[rules.auto_rewrite_rules.remove_trailing_punctuation_in_subject]
-action = "strip_trailing_chars"
-target = "subject"
-chars = [".", "!", "?"]
-
-[rules.auto_rewrite_rules.enforce_imperative_subject_phrasing]
-action = "rewrite_subject_prefix"
-target = "subject"
-mappings = [
-  { from = "^refactor: rename project to (.+)$", to = "refactor: rename the project to $1" },
-  { from = "^(feat|fix|docs|ci|build|test|perf|style|chore|refactor): rename (.+)$", to = "$1: rename $2" },
-]
-
-[rules.auto_rewrite_rules.drop_scope_if_multidomain_or_vague]
-action = "remove_scope_when"
-target = "subject"
-conditions = [
-  "scope_in(scope_values)",
-  "multidomain_change_detected",
-  "subject_length_exceeds_max_with_scope",
-]
-
-[rules.auto_rewrite_rules.normalize_body_bullets]
-action = "normalize_bullets"
-target = "body"
-settings = [
-  "force_dash_space_prefix",
-  "ensure_period_ending",
-  "remove_double_spaces",
-  "dedupe_equivalent_bullets",
-  "cap_bullets_to_max",
-]
-
-[rules.auto_rewrite_rules.remove_label_style_bullets]
-action = "rewrite_body_bullets"
-target = "body"
-mappings = [
-  { from = "^-\\s*Core:\\s*", to = "- " },
-  { from = "^-\\s*Source:\\s*", to = "- " },
-  { from = "^-\\s*UI:\\s*", to = "- " },
-  { from = "^-\\s*Style:\\s*", to = "- " },
-  { from = "^-\\s*Test:\\s*", to = "- " },
-  { from = "^-\\s*Docs:\\s*", to = "- " },
-  { from = "^-\\s*Config:\\s*", to = "- " },
-  { from = "^-\\s*Build:\\s*", to = "- " },
-  { from = "^-\\s*CI:\\s*", to = "- " },
-]
-
-[rules.auto_rewrite_rules.wrap_lines_to_limits]
-action = "wrap_lines"
-targets = ["body", "footer"]
-max_lengths = { body = 72, footer = 72 }
-
-[rules.auto_rewrite_rules.insert_blank_line_after_subject]
-action = "ensure_blank_line"
-target = "message"
-after = "subject"
-
-[rules.auto_rewrite_rules.enforce_breaking_change_footer]
-action = "require_footer_when"
-target = "message"
-condition = "subject_contains_breaking_marker"
-footer_token = "breaking change:"
 
 # ----------------------------------------------------------------------
-# Verification checklist (model must self-check before final output)
+# Verification checklist
 # ----------------------------------------------------------------------
 [verification.checklist]
 must_pass = [
   "subject <= 50 characters",
   "subject is lowercase",
-  "subject is imperative and concrete",
+  "subject is imperative",
   "blank line after subject",
   "each body line <= 72 characters",
   "bullets use '- ' and end with '.'",
   "no label-style bullets in concise mode",
-  "no banned prefixes in body",
   "structured mode used when multi-domain",
   "breaking change footer included when '!' is used",
 ]
