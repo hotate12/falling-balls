@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
-#include "scr_sup_func.h"
+#include "ui.h"
 
 void check_win_size()
 {

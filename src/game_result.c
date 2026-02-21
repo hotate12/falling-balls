@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "game_sup_func.h"
+#include "game_result.h"
 
 void result(const int score)
 {

@@ -2,7 +2,7 @@ CC = gcc
 FLAGS = -w
 LDLIBS = -lncursesw
 
-SRCS = main.c scr_sup_func.c file_io.c falling_balls.c game_sup_func.c
+SRCS = main.c ui.c file_io.c falling_balls.c game_result.c
 OBJS = $(SRCS:.c=.o)
 
 game: $(OBJS)

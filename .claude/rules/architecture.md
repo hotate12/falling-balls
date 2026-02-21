@@ -17,8 +17,8 @@ main() → initscr() → start_scr() [menu loop]
 |--------|------|
 | `main.c` | ncurses initialization, locale setup, menu entry |
 | `falling_balls.c` | Game loop, input handling, ball spawning/movement, collision detection, fever mode |
-| `game_sup_func.c` | Result screen, score saving, CSV update logic, username input |
-| `scr_sup_func.c` | Menu rendering, help screen, scores display, exit confirmation, terminal size check |
+| `game_result.c` | Result screen, score saving, CSV update logic, username input |
+| `ui.c` | Menu rendering, help screen, scores display, exit confirmation, terminal size check |
 | `file_io.c` | Low-level CSV/text file reading and writing |
 
 ## Key Data Structures

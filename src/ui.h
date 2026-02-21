@@ -1,5 +1,5 @@
-#ifndef SCR_SUP_FUNC_H
-#define SCR_SUP_FUNC_H
+#ifndef UI_H
+#define UI_H
 
 #include "file_io.h"
 

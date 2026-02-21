@@ -1,7 +1,7 @@
 #ifndef FALLING_BALLS_H
 #define FALLING_BALLS_H
 
-#include "game_sup_func.h"
+#include "game_result.h"
 
 #define GAME_HEIGHT 14
 #define GAME_WIDTH 22

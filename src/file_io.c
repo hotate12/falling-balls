@@ -5,7 +5,7 @@
 
 void read_file(char *content[], const int max_line)
 {
-    FILE *file = fopen("./rw_file/help.txt", "r");
+    FILE *file = fopen("./data/help.txt", "r");
 
     if (file == NULL)
     {
@@ -27,7 +27,7 @@ void read_file(char *content[], const int max_line)
 
 void read_csv(database *data, const int start, const int num)
 {
-    FILE *file = fopen("./rw_file/hist_scores.csv", "r");
+    FILE *file = fopen("./data/hist_scores.csv", "r");
 
     if (file == NULL)
     {
@@ -51,7 +51,7 @@ void read_csv(database *data, const int start, const int num)
 
 void write_csv(database *ranking_data, database *hist_scores)
 {
-    FILE *file = fopen("./rw_file/hist_scores.csv", "w");
+    FILE *file = fopen("./data/hist_scores.csv", "w");
 
     if (file == NULL)
     {

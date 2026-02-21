@@ -29,11 +29,11 @@
 ├── src/                    # All source code
 │   ├── main.c / .h
 │   ├── falling_balls.c / .h
-│   ├── game_sup_func.c / .h
-│   ├── scr_sup_func.c / .h
+│   ├── game_result.c / .h
+│   ├── ui.c / .h
 │   ├── file_io.c / .h
-│   ├── makefile
-│   └── rw_file/            # Runtime data (scores CSV, help text)
+│   ├── Makefile
+│   └── data/               # Runtime data (scores CSV, help text)
 ├── LICENSE.txt
 ├── README.md
 └── README.ja.md
