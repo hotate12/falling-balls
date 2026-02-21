@@ -237,7 +237,7 @@ scope_values = ["misc", "general", "all", "various", "global"]
 
 [rules.constraints.concise]
 body_patterns = [
-  "^-\\s*(Source|UI|Docs|Config|Core|Build|CI|Test|Style):\\s",
+  "^-\\s*(source|ui|docs|config|core|build|ci|test|style):\\s",
 ]
 
 # ----------------------------------------------------------------------
