@@ -5,7 +5,7 @@
 - **Naming:** `snake_case` for functions and variables; `UPPER_CASE` for constants
 - **Brace style:** K&R
 - **Function prefixes:** `init_*` (initialization), `*_scr` (screen/UI), `load_*` (file loading)
-- **State management:** Global variables in `catch_the_falling_balls.c` for game state (`x`, `y`, `score`, `game_time`, `catch_count`, `fever_active`)
+- **State management:** Global variables in `falling_balls.c` for game state (`x`, `y`, `score`, `game_time`, `catch_count`, `fever_active`)
 - **Compiler warnings:** Suppressed with `-w` flag
 - **Comments:** Minimal; Japanese text in UI strings and help files
 

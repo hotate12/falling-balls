@@ -1,5 +1,5 @@
-#ifndef CATCH_THE_FALLING_BALLS_H
-#define CATCH_THE_FALLING_BALLS_H
+#ifndef FALLING_BALLS_H
+#define FALLING_BALLS_H
 
 #include "game_sup_func.h"
 
