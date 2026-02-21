@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">CATCH THE FALLING BALLS</h1>
+  <h1 align="center">Falling Balls</h1>
   <p align="center">A terminal-based falling ball game built with C and ncurses</p>
 </p>
 
@@ -15,7 +15,7 @@
 
 ---
 
-**CATCH THE FALLING BALLS** is a fast-paced terminal game where you control a basket to catch falling balls within a 30-second time limit. Built entirely in C with the ncurses library, it runs directly in your terminal — no GUI required.
+**Falling Balls** is a fast-paced terminal game where you control a basket to catch falling balls within a 30-second time limit. Built entirely in C with the ncurses library, it runs directly in your terminal — no GUI required.
 
 ## Features
 
@@ -97,7 +97,7 @@ Catch **8 balls in a row** to trigger Fever Time (8 seconds). During Fever Time:
 │   └── devcontainer.json
 ├── src/
 │   ├── main.c               # Entry point, ncurses initialization
-│   ├── catch_the_falling_balls.c  # Core game loop and mechanics
+│   ├── falling_balls.c            # Core game loop and mechanics
 │   ├── game_sup_func.c      # Scoring, results, save/load
 │   ├── scr_sup_func.c       # Screen rendering and UI helpers
 │   ├── file_io.c            # CSV file I/O

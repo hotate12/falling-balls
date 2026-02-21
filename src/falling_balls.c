@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <stdlib.h>
 #include <sys/time.h>
-#include "catch_the_falling_balls.h"
+#include "falling_balls.h"
 
 int x = PLAY_AREA_GAME_WIDTH / 2;
 int y = PLAY_AREA_GAME_HEIGHT - 1;
