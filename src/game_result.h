@@ -1,5 +1,5 @@
-#ifndef GAME_SUP_FUNC_H
-#define GAME_SUP_FUNC_H
+#ifndef GAME_RESULT_H
+#define GAME_RESULT_H
 
 #include "file_io.h"
 
