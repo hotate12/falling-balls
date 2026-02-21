@@ -31,7 +31,7 @@ void init_start_scr(const int selected)
     getmaxyx(stdscr, max_y, max_x);
 
     char *menu[] = {"Play", "Scores", "Help", "Exit"};
-    char game_title[] = "CATCH THE FALLING BALLS";
+    char game_title[] = "Falling Balls";
 
     int title_len = strlen(game_title);
     for (int i = 0; i < 4; i++)

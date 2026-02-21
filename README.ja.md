@@ -1,5 +1,5 @@
 <p align="center">
-  <h1 align="center">CATCH THE FALLING BALLS</h1>
+  <h1 align="center">Falling Balls</h1>
   <p align="center">C と ncurses で作られたターミナルベースの落下ボールゲーム</p>
 </p>
 
@@ -15,7 +15,7 @@
 
 ---
 
-**CATCH THE FALLING BALLS** は、制限時間30秒以内にバスケットを操作して落下するボールをキャッチするターミナルゲームです。C言語と ncurses ライブラリで構築されており、ターミナル上で直接動作します。
+**Falling Balls** は、制限時間30秒以内にバスケットを操作して落下するボールをキャッチするターミナルゲームです。C言語と ncurses ライブラリで構築されており、ターミナル上で直接動作します。
 
 ## 特徴
 
@@ -97,7 +97,7 @@ make clean
 │   └── devcontainer.json
 ├── src/
 │   ├── main.c               # エントリーポイント、ncurses 初期化
-│   ├── catch_the_falling_balls.c  # ゲームループとメカニクス
+│   ├── falling_balls.c            # ゲームループとメカニクス
 │   ├── game_sup_func.c      # スコア処理、結果表示、保存
 │   ├── scr_sup_func.c       # 画面描画、UI ヘルパー
 │   ├── file_io.c            # CSV ファイル入出力
